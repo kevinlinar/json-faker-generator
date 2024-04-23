@@ -6,7 +6,7 @@ export class UsersGenerator {
 		const users: User[] = [];
 		for (let i = 0; i < count; i++) {
 			users.push({
-				id: i,
+				id: i + 1,
 				name: faker.person.fullName(),
 				username: faker.internet.userName(),
 				email: faker.internet.email(),

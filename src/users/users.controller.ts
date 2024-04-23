@@ -2,6 +2,7 @@ import { Body, Controller, Delete, Get, HttpCode, Param, Patch } from '@nestjs/c
 import { User } from '@users/entities/user.entity';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UsersService } from './users.service';
+import { DataTablesResponse } from '@shared/interfaces/data-tables';
 
 @Controller('users')
 export class UsersController {
@@ -14,8 +15,13 @@ export class UsersController {
 	}
 
 	@Get()
-	findAll(): User[] {
-		return this.usersService.findAll();
+	findAll(): DataTablesResponse<User> {
+		const users = this.usersService.findAll();
+		return {
+			recordsTotal: users.length,
+			recordsFiltered: users.length,
+			data: users,
+		};
 	}
 
 	@Get(':id')
