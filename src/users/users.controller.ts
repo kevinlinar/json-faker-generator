@@ -1,8 +1,8 @@
-import { Body, Controller, Delete, Get, HttpCode, Param, Patch } from '@nestjs/common';
+import { Body, Controller, Delete, Post, Get, HttpCode, Param, Patch } from '@nestjs/common';
 import { User } from '@users/entities/user.entity';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UsersService } from './users.service';
-import { DataTablesResponse } from '@shared/interfaces/data-tables';
+import { DTDataRequest, DTHttpResponse } from '@shared/interfaces/data-tables';
 
 @Controller('users')
 export class UsersController {
@@ -14,14 +14,9 @@ export class UsersController {
 		return this.usersService.create(count);
 	}
 
-	@Get()
-	findAll(): DataTablesResponse<User> {
-		const users = this.usersService.findAll();
-		return {
-			recordsTotal: users.length,
-			recordsFiltered: users.length,
-			data: users,
-		};
+	@Post()
+	findAll(@Body() dtParams: DTDataRequest): DTHttpResponse<User> {
+		return this.usersService.findAll(dtParams);
 	}
 
 	@Get(':id')
